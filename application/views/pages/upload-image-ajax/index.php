@@ -20,7 +20,7 @@
 				<input type="file" name="image" /> 
 				<br />
 				<br />
-				<button type="submit">submit</button>
+				<button type="submit" id="btn-submit">submit</button>
 			</form>
 		</p>
 		<p class="error">
@@ -44,6 +44,9 @@
 					dataType: 'json',
 					data: formData,
 					async: true,
+					beforeSend: function() {
+						$('#btn-submit').prop('disabled', true);
+					},
 					success: function(response) {
 						if(response.status) {
 							var SITE_URL = '<?php echo site_url('');?>';
@@ -51,6 +54,9 @@
 						} else {						
 							$('.error').html(response.error);
 						}
+					},
+					complete: function() {
+						$('#btn-submit').prop('disabled', false);
 					},
 					cache: false,
 					contentType: false,
